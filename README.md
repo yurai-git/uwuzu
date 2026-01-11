@@ -15,7 +15,7 @@ uwuzuは簡潔に言えばシンプルなマイクロブログSNSです。
 もちろん画像や動画の添付も可能、カスタム絵文字機能などもあります...  
 
 ### 見た目
-![みため](https://docs.uwuzu.xyz/img/shot/top_on_pc.png)
+![みため](https://docs.uwuzu.com/img/shot/top_on_pc.png)
 
 ### 機能比較
 見た目だけ見せられても困るそんなあなたに！
