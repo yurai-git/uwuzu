@@ -28,3 +28,12 @@
     /*MonospacedFonts*/
     --Mono-fonts: "BIZ UDGothic";
 }
+@media (prefers-color-scheme: dark) {
+    :root {
+        --sub-color: var(--dark-sub-color);
+        --background-color: var(--dark-background-color);
+        --text-color: var(--dark-text-color);
+        --subtext-color: var(--dark-subtext-color);
+        --border-color: var(--dark-border-color);
+    }
+}

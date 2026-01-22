@@ -51,13 +51,13 @@ if(!(defined("DB_NAME")) || !(defined("DB_HOST")) || !(defined("DB_USER")) || !(
         // タイムゾーン設定
         date_default_timezone_set('Asia/Tokyo');
         ?>
-	";
+    ";
 
-	//サーバー設定上書き
-	$file = fopen("../db.php", 'w');
-	$data = $db_new_settings;
-	fputs($file, $data);
-	fclose($file);
+    //サーバー設定上書き
+    $file = fopen("../db.php", 'w');
+    $data = $db_new_settings;
+    fputs($file, $data);
+    fclose($file);
 
     $error_message[] = "db.phpを初期化しました。ページを再読込してください。";
     $db_error = true;
@@ -70,7 +70,7 @@ if(!(defined("DB_NAME")) || !(defined("DB_HOST")) || !(defined("DB_USER")) || !(
             PDO::MYSQL_ATTR_MULTI_STATEMENTS => false
         );
         $pdo = new PDO('mysql:charset=utf8mb4;dbname='.DB_NAME.';host='.DB_HOST , DB_USER, DB_PASS, $option);
-    
+
     } catch(PDOException $e) {
         $error_message[] = $e->getMessage();
         $db_error = true;
@@ -93,20 +93,20 @@ if(!(defined("DB_NAME")) || !(defined("DB_HOST")) || !(defined("DB_USER")) || !(
         if ($exists) {
             blockedIP($_SERVER['REMOTE_ADDR']);
         }
-    
+
         $aduser = "yes";
-        
+
         $query = $pdo->prepare('SELECT * FROM account WHERE admin = :adminuser limit 1');
-        
+
         $query->execute(array(':adminuser' => $aduser));
-        
+
         $result2 = $query->fetch();
-        
+
         if($result2 > 0){
             header("Location: ../login.php");
             exit;
         }
-        
+
         $db_php = true;
     }else{
         $db_php = false;
@@ -202,7 +202,7 @@ $pdo = null;
             <?php }?>
             <br>
             セットアップ中にエラーに遭遇した場合はdocs.uwuzu.comを確認し、解消に向けて取り組みましょう！</p>
-        
+
             <div class="module_chk">
                 <div class="p2">Already setが設定済みでNot setが未設定です。</div>
                 <div class="p2">PHPの必須モジュールの確認は全ての必須モジュールを対象に行われるものではありません。php側にてデフォルトでインストール・有効になっているものはチェック・表示しない場合がございます。</div>
@@ -218,13 +218,23 @@ $pdo = null;
 
 
         <p>uwuzu<br>Version : <?php echo $uwuzuinfo[1]?></p>
-            <div class="btnbox">
-                <a href="setup_db_php.php" class="irobutton">セットアップ開始！</a>
-            </div>
+            <?php ob_start(); ?>
+                <?php
+                    $label = "セットアップ開始！";
+                    $link = "./setup_db_php.php";
+                    $class = ['iro', 'medium'];
+                    require('../components/button.php');
+                ?>
+            <?php
+                $content = ob_get_clean();
+                $class = ['outlined'];
+                $isRaw = true;
+                require('../components/card.php');
+            ?>
         </div>
 
         <?php }?>
-        
+
     </div>
 </div>
 

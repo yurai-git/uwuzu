@@ -1,5 +1,6 @@
 @import url("font.css");
 @import url("color.css");
+@import './components/index.css';
 ::-webkit-scrollbar {
     display: none;
 }
