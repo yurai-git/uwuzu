@@ -2,7 +2,8 @@
 使っている方ならわかると思いますが普通のSNSです！
 これと言った大きな特徴もなく、平凡で、なんとも言えないSNSです…
 あっ！特徴かもしれないのが誰でもサーバーを建てられることです！！！
-詳細はdocs.uwuzu.xyzを確認してください！
+SNSを作れるソフトウェアみたいな...？
+よければ詳細はdocs.uwuzu.comを確認してください！
 ### 1.1 uwuzuのよみは？
 uwuzuの読みはゆずです。
 
@@ -28,7 +29,7 @@ uwuzuはPHPとJS、HTML(プログラミング言語じゃないか)、CSSで作�
 使用している画像は友人またはGoogle Icons様より使わせて頂いております！
 
 ## 5. サーバーの建て方
-docs.uwuzu.xyzをご確認いただくかgithubのreadme.mdをよんでください！
+docs.uwuzu.comをご確認いただくかgithubのreadme.mdをよんでください！
 
 ## 6. Android、iOS、その他OS向けのアプリについて
 残念ですが今現在は公式アプリ等はなく、Webブラウザからお楽しみいただけます。
@@ -53,7 +54,7 @@ daichimarukanaと一緒に開発したいよ～って人は私のHPからメー�
 
 ## 9. ライセンス
 UPULライセンスです！
-UPULライセンスに関しては同梱されているUPUL_License.txtを確認するか、uwuzu.xyzより詳細をご確認ください。
+UPULライセンスに関しては同梱されているUPUL_License.txtを確認するか、uwuzu.comより詳細をご確認ください。
 
 ## 10. 利用させていただいているライブラリなどのライセンス
 
@@ -65,7 +66,7 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 なお、使わせていただいているコードは改変させていただいでおります。
 
-### jQuery 3.7.1
+### jQuery 4.0.0
 MITライセンスで提供されているようです。
 詳細は以下のリンク先をご覧ください。
 https://jquery.com/license/
@@ -98,4 +99,4 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## 更新情報
 編集者 : daichimarukana
-最終更新日 : 2025/08/05 0:45
+最終更新日 : 2026/04/05 16:32

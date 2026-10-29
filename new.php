@@ -8,6 +8,11 @@ $badpassfile = "server/badpass.txt";
 $badpass_info = file_get_contents($badpassfile);
 $badpass = preg_split("/\r\n|\n|\r/", $badpass_info);
 
+$domain = $_SERVER['HTTP_HOST'];
+
+$serverinfofile = 'server/info.txt';
+$serverinfo = file_get_contents($serverinfofile);
+
 require('db.php');
 //関数呼び出し
 //- EXIF
@@ -171,15 +176,7 @@ if( !empty($_POST['btn_submit']) ) {
             if ($result) {
                 $iconName = $uploadedPath;
             } else {
-                $errnum = $uploadedFile['error'];
-                if($errnum === 1){$errcode = "FILE_DEKASUGUI_PHP_INI_KAKUNIN";}
-                if($errnum === 2){$errcode = "FILE_DEKASUGUI_HTML_KAKUNIN";}
-                if($errnum === 3){$errcode = "FILE_SUKOSHIDAKE_UPLOAD";}
-                if($errnum === 4){$errcode = "FILE_UPLOAD_DEKINAKATTA";}
-                if($errnum === 6){$errcode = "TMP_FOLDER_NAI";}
-                if($errnum === 7){$errcode = "FILE_KAKIKOMI_SIPPAI";}
-                if($errnum === 8){$errcode = "PHPINFO()_KAKUNIN";}
-                $error_message[] = 'アップロード失敗！(1)エラーコード：' .$uploadedFile['error'].'';
+                $error_message[] = 'アップロード失敗！(1)エラーコード： ERROR';
             }
         }
         if(isset($s3result)){
@@ -191,47 +188,47 @@ if( !empty($_POST['btn_submit']) ) {
         }
     } else {
         $uploadedFile = $_FILES['image'];
-        if(!(empty($uploadedFile['tmp_name']))){
-            if(check_mime($uploadedFile['tmp_name'])){
-                $extension = convert_mime(check_mime($uploadedFile['tmp_name']));
-                delete_exif($extension, $uploadedFile['tmp_name']);
-                resizeImage($uploadedFile['tmp_name'], 512, 512);
-
-                if(AMS3_CHKS == "true"){
-                    $s3result = uploadAmazonS3($uploadedFile['tmp_name']);
+        $beforeUploadError = check_upload_error($uploadedFile, __DIR__.'/usericons/');
+        if($beforeUploadError === null){
+            if(!(empty($uploadedFile['tmp_name']))){
+                if(check_mime($uploadedFile['tmp_name'])){
+                    $extension = convert_mime(check_mime($uploadedFile['tmp_name']));
+                    delete_exif($extension, $uploadedFile['tmp_name']);
+                    if(resizeImage($uploadedFile['tmp_name'], 512, 512) === true){
+                        if(AMS3_CHKS == "true"){
+                            $s3result = uploadAmazonS3($uploadedFile['tmp_name']);
+                        }else{
+                            if(check_mime($uploadedFile['tmp_name']) == "image/webp"){
+                                $newFilename = createUniqId() . '-'.$userid.'.webp';
+                            }else{
+                                $newFilename = createUniqId() . '-'.$userid.'.' . $extension;
+                            }
+                            $uploadedPath = 'usericons/' . $newFilename;
+                            $result = move_uploaded_file($uploadedFile['tmp_name'], $uploadedPath);
+                            
+                            if ($result) {
+                                $iconName = $uploadedPath; // 保存されたファイルのパスを使用
+                            } else {
+                                $beforeUploadError = check_upload_error($uploadedFile, __DIR__.'/usericons/') ?? "ERROR";
+                                $error_message[] = 'アップロード失敗！(1)エラーコード：' .$beforeUploadError.'';
+                            }
+                        }
+                        if(isset($s3result)){
+                            if($s3result == false){
+                                $error_message[] = 'アップロード失敗！(1)エラーコード： S3ERROR';
+                            }else{
+                                $iconName = $s3result; // S3に保存されたファイルのパスを使用
+                            }
+                        }   
+                    }else{
+                        $error_message[] = 'アップロード失敗！(1)エラーコード： PHOTO_INVALID';
+                    }
                 }else{
-                    if(check_mime($uploadedFile['tmp_name']) == "image/webp"){
-                        $newFilename = createUniqId() . '-'.$userid.'.webp';
-                    }else{
-                        $newFilename = createUniqId() . '-'.$userid.'.' . $extension;
-                    }
-                    $uploadedPath = 'usericons/' . $newFilename;
-                    $result = move_uploaded_file($uploadedFile['tmp_name'], $uploadedPath);
-                    
-                    if ($result) {
-                        $iconName = $uploadedPath; // 保存されたファイルのパスを使用
-                    } else {
-                        $errnum = $uploadedFile['error'];
-                        if($errnum === 1){$errcode = "FILE_DEKASUGUI_PHP_INI_KAKUNIN";}
-                        if($errnum === 2){$errcode = "FILE_DEKASUGUI_HTML_KAKUNIN";}
-                        if($errnum === 3){$errcode = "FILE_SUKOSHIDAKE_UPLOAD";}
-                        if($errnum === 4){$errcode = "FILE_UPLOAD_DEKINAKATTA";}
-                        if($errnum === 6){$errcode = "TMP_FOLDER_NAI";}
-                        if($errnum === 7){$errcode = "FILE_KAKIKOMI_SIPPAI";}
-                        if($errnum === 8){$errcode = "PHPINFO()_KAKUNIN";}
-                        $error_message[] = 'アップロード失敗！(1)エラーコード：' .$errcode.'';
-                    }
+                    $error_message[] = "使用できない画像形式です。(FILE_UPLOAD_DEKINAKATTA)";
                 }
-                if(isset($s3result)){
-                    if($s3result == false){
-                        $error_message[] = 'アップロード失敗！(1)エラーコード： S3ERROR';
-                    }else{
-                        $iconName = $s3result; // S3に保存されたファイルのパスを使用
-                    }
-                }   
-            }else{
-                $error_message[] = "使用できない画像形式です。(FILE_UPLOAD_DEKINAKATTA)";
             }
+        }else{
+            $error_message[] = 'アップロード失敗！(1)エラーコード：' .$beforeUploadError.'';
         }
     }
 
@@ -247,15 +244,7 @@ if( !empty($_POST['btn_submit']) ) {
         if ($result) {
             $headName = $uploadedPath;
         } else {
-            $errnum = $uploadedFile['error'];
-            if($errnum === 1){$errcode = "FILE_DEKASUGUI_PHP_INI_KAKUNIN";}
-            if($errnum === 2){$errcode = "FILE_DEKASUGUI_HTML_KAKUNIN";}
-            if($errnum === 3){$errcode = "FILE_SUKOSHIDAKE_UPLOAD";}
-            if($errnum === 4){$errcode = "FILE_UPLOAD_DEKINAKATTA";}
-            if($errnum === 6){$errcode = "TMP_FOLDER_NAI";}
-            if($errnum === 7){$errcode = "FILE_KAKIKOMI_SIPPAI";}
-            if($errnum === 8){$errcode = "PHPINFO()_KAKUNIN";}
-            $error_message[] = 'アップロード失敗！(2)エラーコード：' .$uploadedFile['error'].'';
+            $error_message[] = 'アップロード失敗！(1)エラーコード： ERROR';
         }
     }
     if(isset($s3result)){

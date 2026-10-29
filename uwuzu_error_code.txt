@@ -32,15 +32,20 @@ could_not_complete - 処理を完了できなかった場合に表示されま�
 user_not_frozen_cant_be_banned - APIからユーザーをBANしようとした際に、ユーザーが事前に凍結されていない場合に発生するエラーです。
 method_not_allowed - 禁止されたHTTPメゾットで要求があった場合に表示されます。
 this_API_is_ws_only - WebsocketAPIがWebsocket以外の方法でアクセスされた場合に表示されます。
+base64_decode_failed - Base64デコードに失敗した場合に表示されます。
 
 ----------(UWUZU ERR CODE)----------
 FILE_DEKASUGUI_PHP_INI_KAKUNIN - php.iniで設定されているファイルサイズ上限を上回っている時に表示されます。
 FILE_DEKASUGUI_HTML_KAKUNIN - HTMLフォームで指定されているファイルサイズ上限を上回っている時に表示されます。
 FILE_SUKOSHIDAKE_UPLOAD - アップロードされたファイルが一部のみアップロードされた場合に表示されます。
 FILE_UPLOAD_DEKINAKATTA - ファイルのアップロードができない場合に表示されます。
+FILE_NAME_NAI - ファイル名が無い場合に表示されます。
+FILE_PATH_NAI - ファイルパスが無い場合に表示されます。
+FILE_SIZE_NAI - ファイルサイズが無い場合に表示されます。
 TMP_FOLDER_NAI - テンポラリフォルダがない場合に表示されます。
 FILE_KAKIKOMI_SIPPAI - 記憶装置へのファイル書き込みに失敗した場合に表示されます。
 PHPINFO()_KAKUNIN - PHPの拡張モジュールによりアップロードが中止された場合に表示されます。
+SAVE_FOLDER_KAKIKOMI_KENNAI - フォルダへの書き込み権が無い場合に表示されます。
 
 INVITATION_CODE_INPUT_PLEASE - 招待コードが入力されていない時に表示されます。
 INVITATION_CODE_SHIYOUZUMI - 招待コードが使用済みの場合に表示されます。
@@ -82,6 +87,7 @@ INPUT_CONTAINS_PROHIBITED_URL - 入力すべき場所に入力された内容に
 
 PHOTO_SELECT_PLEASE - 正常に画像が選択されていない場合に表示されます。
 PHOTO_OVER_MAX_SIZE - 画像のファイルサイズが大きすぎる場合に表示されます。
+PHOTO_INVALID - 不正な画像が送られた場合に表示されます。
 
 SORRY_FILE_HITAIOU - 対応していないファイル形式のファイルが読み込まれた場合に表示されます。
 
