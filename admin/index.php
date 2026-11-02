@@ -1,15 +1,16 @@
 <?php
-require('../db.php');
-require("../function/function.php");
+  require('../db.php');
+  require("../function/function.php");
+  require_once($_SERVER['DOCUMENT_ROOT'] . '/components/button/index.php');
 
-$softwarefile = "../server/uwuzuinfo.txt";
+  $softwarefile = "../server/uwuzuinfo.txt";
 $softwaredata = file_get_contents($softwarefile);
 
-$softwaredata = explode( "\n", $softwaredata );
-$cnt = count( $softwaredata );
-for( $i=0;$i<$cnt;$i++ ){
+  $softwaredata = explode( "\n", $softwaredata );
+  $cnt = count( $softwaredata );
+  for( $i=0;$i<$cnt;$i++ ){
     $uwuzuinfo[$i] = ($softwaredata[$i]);
-}
+  }
 
 $serversettings_file = "../server/serversettings.ini";
 $serversettings = parse_ini_file($serversettings_file, true);
@@ -78,8 +79,8 @@ if(!(defined("DB_NAME")) || !(defined("DB_HOST")) || !(defined("DB_USER")) || !(
 
     if(empty($error_message)){
         $stmt = $pdo->prepare("
-            SELECT COUNT(*) 
-            FROM information_schema.tables 
+            SELECT COUNT(*)
+            FROM information_schema.tables
             WHERE table_schema = :schema AND table_name = :table
             LIMIT 1
         ");
@@ -219,12 +220,12 @@ $pdo = null;
 
         <p>uwuzu<br>Version : <?php echo $uwuzuinfo[1]?></p>
             <?php ob_start(); ?>
-                <?php
-                    $label = "セットアップ開始！";
-                    $link = "./setup_db_php.php";
-                    $class = ['iro', 'medium'];
-                    require('../components/button.php');
-                ?>
+                <?php new Button(
+                    label: 'セットアップ開始！',
+                    href: '/admin/setup_db_php.php',
+                    variant: ButtonVariant::Filled,
+                    size: ButtonSize::Medium,
+                ); ?>
             <?php
                 $content = ob_get_clean();
                 $class = ['outlined'];
