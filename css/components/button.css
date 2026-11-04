@@ -37,7 +37,7 @@
       pointer-events: none;
     }
   }
-  &.uwuzu-button--variant-text {
+  &.uwuzu-button--variant-ghost {
     &.uwuzu-button--state-enabled {}
     &.uwuzu-button--state-disabled {
       pointer-events: none;

@@ -1,107 +1,130 @@
 <?php
-  require_once __DIR__ . '/enums.php';
+require_once __DIR__ . '/enumerations.php';
 
-  class Button {
-    public function __construct(
-      ?string $ariaLabel = null,
-      ?bool $bypassSanitization = false,
-      ?string $content = null,
-      ?bool $disabled = false,
-      ?string $download = null,
-      ?ButtonError $error = ButtonError::None,
-      ?string $href = null,
-      ?string $icon = null,
-      ?string $label = null,
-      ?string $rel = null,
-      ?ButtonSize $size = ButtonSize::Medium,
-      ?bool $softDisabled = false,
-      ?string $target = null,
-      ?string $type = 'submit',
-      ?ButtonVariant $variant = ButtonVariant::Filled,
-    ) {
-      $base = 'uwuzu-button';
+class Button {
+  private static array $stack = [];
 
-      if ($ariaLabel !== null) { $ariaLabel = htmlspecialchars($ariaLabel); }
-      $content = ($content !== null && $bypassSanitization) ? htmlspecialchars($content) : $content;
-      if ($download !== null) { $download = htmlspecialchars($download); }
-      $error = htmlspecialchars($error->value);
-      if ($href !== null) { $href = htmlspecialchars($href); }
-      if ($icon !== null) { $icon = htmlspecialchars($icon); }
-      if ($label !== null) { $label = htmlspecialchars($label); }
-      if ($rel !== null) { $rel = htmlspecialchars($rel); }
-      $size = htmlspecialchars($size->value);
-      if ($target !== null) { $target = htmlspecialchars($target); }
-      $type = htmlspecialchars($type);
-      $variant = htmlspecialchars($variant->value);
+  public static function create(
+    mixed ...$args
+  ): void {
+    $args['bypassSanitization'] = false;
 
-      $state = ($disabled || $softDisabled) ? 'disabled' : 'enabled';
-
-      $classes = [
-        "{$base}",
-        "{$base}--error-{$error}",
-        "{$base}--size-{$size}",
-        "{$base}--state-{$state}",
-        "{$base}--variant-{$variant}",
-      ];
-      $classString = implode(' ', $classes);
-
-      if ($href !== null) {
-        $attributes = array_filter([
-          ($ariaLabel !== null) ? "aria-label='{$ariaLabel}'" : null,
-          "class='{$classString}'",
-          ($download !== null) ? "download='{$download}'" : null,
-          "href='{$href}'",
-          ($rel !== null) ? "rel='{$rel}'" : null,
-          ($target !== null) ? "target='{$target}'" : null,
-        ]);
-        $attributeString = implode(' ', $attributes);
-
-        echo "<a {$attributeString}>";
-        $this->renderInner(
-          content: $content,
-          icon: $icon,
-          label: $label,
-          base: $base,
-        );
-        echo "</a>";
-      } else {
-        $attributes = array_filter([
-          ($softDisabled) ? 'aria-disabled="true"' : null,
-          ($ariaLabel !== null) ? "aria-label='{$ariaLabel}'" : null,
-          "class='{$classString}'",
-          ($disabled) ? 'disabled' : null,
-          "type='{$type}'",
-        ]);
-        $attributeString = implode(' ', $attributes);
-
-        echo "<button {$attributeString}>";
-        $this->renderInner(
-          content: $content,
-          icon: $icon,
-          label: $label,
-          base: $base,
-        );
-        echo "</button>";
-      }
-    }
-
-    private function renderInner(
-      ?string $content = null,
-      ?string $icon = null,
-      ?string $label = null,
-      string $base,
-    ): void {
-      if ($content !== null) {
-        echo $content;
-      }
-      if ($icon !== null) {
-        echo "<span aria-hidden='true' class='{$base}__icon'><svg><use href='{$icon}' /></svg></span>";
-      }
-      if ($label !== null) {
-        echo "<span class='{$base}__label'>{$label}</span>";
-      }
-
-      require $_SERVER['DOCUMENT_ROOT'] . '/components/focus-ring.php';
-    }
+    self::start(...$args);
+    self::end();
   }
-?>
+
+  public static function start(
+    ?string $ariaLabel = null,
+    bool $bypassSanitization = false,
+    bool $disabled = false,
+    bool $download = false,
+    ButtonError $error = ButtonError::None,
+    ?string $href = null,
+    ?string $icon = null,
+    ?string $label = null,
+    ?string $rel = null,
+    string $semanticName = 'uwuzu-button',
+    ButtonSize $size = ButtonSize::Medium,
+    bool $softDisabled = false,
+    ?string $target = null,
+    string $type = 'submit',
+    ButtonVariant $variant = ButtonVariant::Filled,
+  ): void {
+    $ariaLabel = (!is_null($ariaLabel)) ? htmlspecialchars($ariaLabel) : null;
+    $error = $error->value;
+    $href = (!is_null($href)) ? htmlspecialchars($href) : null;
+    $icon = (!is_null($icon)) ? htmlspecialchars($icon) : null;
+    $label = (!is_null($label)) ? htmlspecialchars($label) : null;
+    $rel = (!is_null($rel)) ? htmlspecialchars($rel) : null;
+    $semanticName = htmlspecialchars($semanticName);
+    $size = $size->value;
+    $target = (!is_null($target)) ? htmlspecialchars($target) : null;
+    $type = htmlspecialchars($type);
+    $variant = $variant->value;
+
+    $state = ($disabled || $softDisabled) ? 'disabled' : 'enabled';
+
+    $classes = filter_classes([
+      "{$semanticName}",
+      "{$semanticName}--error-{$error}",
+      "{$semanticName}--size-{$size}",
+      "{$semanticName}--state-{$state}",
+      "{$semanticName}--variant-{$variant}",
+    ]);
+
+    $inner = self::inner(
+      icon: $icon,
+      label: $label,
+      semanticName: $semanticName,
+    );
+
+    if (!is_null($href)) {
+      $attributes = filter_attributes([
+        'aria-disabled' => ($disabled || $softDisabled) ? 'true' : null,
+        'aria-label' => $ariaLabel,
+        'class' => $classes,
+        'download' => $download,
+        'href' => $href,
+        'onclick' => $softDisabled ? 'return false;' : null,
+        'rel' => $rel,
+        'style' => ($disabled || $softDisabled) ? 'pointer-events: none;' : null,
+        'tabindex' => $disabled ? '-1' : null,
+        'target' => $target,
+      ]);
+      $element = 'a';
+    } else {
+      $attributes = filter_attributes([
+        'aria-disabled' => $softDisabled,
+        'aria-label' => $ariaLabel,
+        'class' => $classes,
+        'disabled' => $disabled,
+        'onclick' => $softDisabled ? 'return false;' : null,
+        'type' => $type,
+      ]);
+      $element = 'button';
+    }
+
+    $result = (object)[
+      'attributes' => $attributes,
+      'bypassSanitization' => $bypassSanitization,
+      'element' => $element,
+      'inner' => $inner,
+      'semanticName' => $semanticName,
+    ];
+    self::$stack[] = $result;
+
+    ob_start();
+  }
+
+  public static function end(): void {
+    $stack = array_pop(self::$stack);
+    $innerContent = ($stack->bypassSanitization) ? ob_get_clean() : htmlspecialchars(ob_get_clean());
+
+    ob_start();
+    FocusRing::create(
+      childName: "{$stack->semanticName}__focus-ring",
+    );
+    $focusRing = ob_get_clean();
+
+    $result = <<<EOT
+    <{$stack->element} {$stack->attributes}>
+      <div class="{$stack->semanticName}__container">
+        {$innerContent}
+        {$stack->inner}
+        {$focusRing}
+      </div>
+    </{$stack->element}>
+    EOT;
+
+    echo $result;
+  }
+
+  private static function inner(?string $icon, ?string $label, string $semanticName): string {
+    $inner = array_filter([
+      !is_null($icon) ? "<span aria-hidden='true' class='{$semanticName}__icon'><svg><use href='{$icon}' /></svg></span>" : null,
+      !is_null($label) ? "<span class='{$semanticName}__label'>{$label}</span>" : null,
+    ]);
+
+    return implode('', $inner);
+  }
+}

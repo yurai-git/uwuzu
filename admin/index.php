@@ -1,7 +1,7 @@
 <?php
 require('../db.php');
 require("../function/function.php");
-require_once($_SERVER['DOCUMENT_ROOT'] . '/components/button/index.php');
+require_once("{$_SERVER['DOCUMENT_ROOT']}/components/index.php");
 
 $softwarefile = "../server/uwuzuinfo.txt";
 $softwaredata = file_get_contents($softwarefile);
@@ -220,10 +220,9 @@ $pdo = null;
 
         <p>uwuzu<br>Version : <?php echo $uwuzuinfo[1]?></p>
             <?php ob_start(); ?>
-                <?php new Button(
+                <?php Button::create(
                     label: 'セットアップ開始！',
                     href: '/admin/setup_db_php.php',
-                    variant: ButtonVariant::Filled,
                     size: ButtonSize::Medium,
                 ); ?>
             <?php
