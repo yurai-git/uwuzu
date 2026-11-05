@@ -219,18 +219,15 @@ $pdo = null;
 
 
         <p>uwuzu<br>Version : <?php echo $uwuzuinfo[1]?></p>
-            <?php ob_start(); ?>
+            <?php Card::start(
+                bypassSanitization: true,
+            ); ?>
                 <?php Button::create(
                     label: 'セットアップ開始！',
                     href: '/admin/setup_db_php.php',
                     size: ButtonSize::Medium,
                 ); ?>
-            <?php
-                $content = ob_get_clean();
-                $class = ['outlined'];
-                $isRaw = true;
-                require('../components/card.php');
-            ?>
+            <?php Card::end(); ?>
         </div>
 
         <?php }?>
