@@ -13,8 +13,8 @@ There are four variants of the component: `Filled` (default), `Ghost`,
 
 ```php
 <?php Button::create(
-  variant: ButtonVariant::Filled,
-  label: 'Ueuse',
+    variant: ButtonVariant::Filled,
+    label: 'Ueuse',
 ); ?>
 ```
 
@@ -25,8 +25,8 @@ There are three sizes of the component: `Large`, `Medium` (default), and
 
 ```php
 <?php Button::create(
-  size: ButtonSize::Large,
-  label: 'Sign in',
+    size: ButtonSize::Large,
+    label: 'Sign in',
 ); ?>
 ```
 
@@ -37,8 +37,8 @@ There are three error display styles of the component: `Always`, `Hover`, and
 
 ```php
 <?php Button::create(
-  error: ButtonError::Always,
-  label: 'Block',
+    error: ButtonError::Always,
+    label: 'Block',
 ); ?>
 ```
 
@@ -48,9 +48,9 @@ Use the `start()` and `end()` methods to include content inside the component.
 
 ```php
 <?php Button::start(
-  ariaLabel: 'More options',
+    ariaLabel: 'More options',
 ); ?>
-  more_vert
+    more_vert
 <?php Button::end(); ?>
 ```
 
@@ -59,12 +59,12 @@ content. Do not pass user-generated content with this parameter enabled.
 
 ```php
 <?php Button::start(
-  bypassSanitization: true,
-  label: 'Open settings',
+    bypassSanitization: true,
+    label: 'Open settings',
 ); ?>
-  <?php DialogTrigger::create(
-    for: 'settings-dialog',
-  ); ?>
+    <?php DialogTrigger::create(
+        for: 'settings-dialog',
+    ); ?>
 <?php Button::end(); ?>
 ```
 
@@ -82,8 +82,8 @@ parameter.
 
 ```php
 <?php Button::create(
-  ariaLabel: 'Compose a new ueuse',
-  icon: '/images/add.svg',
+    ariaLabel: 'Compose a new ueuse',
+    icon: '/images/add.svg',
 ); ?>
 ```
 
@@ -94,9 +94,9 @@ focusable.
 
 ```php
 <?php Button::create(
-  error: ButtonError::Always,
-  label: 'Delete',
-  softDisabled: true,
+    error: ButtonError::Always,
+    label: 'Delete',
+    softDisabled: true,
 ); ?>
 ```
 
