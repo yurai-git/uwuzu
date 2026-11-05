@@ -9,13 +9,12 @@
   gap: 16px;
 
   /**
-   * Color
+   * Variant
    */
-  &.outlined {
+  &.uwuzu-card--variant-outlined {
     background-color: var(--background-color);
     border: 1px solid var(--border-color);
   }
-  &.elevated {}
 
   .uwuzu-button {
     align-self: center;
