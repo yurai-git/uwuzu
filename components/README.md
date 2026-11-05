@@ -2,7 +2,8 @@
 
 Accessible UI components built with PHP for uwuzu.
 
-| Component                  | Class       | Description                                      |
-| -------------------------- | ----------- | ------------------------------------------------ |
-| [Button](./button)         | `Button`    | Can be used as an `<a>` or a `<button>` element. |
-| [Focus ring](./focus-ring) | `FocusRing` | Shows an outline on the focused component.       |
+| Component                  | Class       | Description                                            |
+| -------------------------- | ----------- | ------------------------------------------------------ |
+| [Button](./button)         | `Button`    | Can be used as an `<a>` or a `<button>` element.       |
+| [Card](./card)             | `Card`      | A container that can be used to group related content. |
+| [Focus ring](./focus-ring) | `FocusRing` | Shows an outline on the focused component.             |
