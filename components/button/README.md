@@ -1,7 +1,3 @@
----
-title: "Button"
----
-
 # Button
 
 The button component can be used as an `<a>` or a `<button>` element.
@@ -74,9 +70,9 @@ content. Do not pass user-generated content with this parameter enabled.
 
 ## Accessibility
 
-### Icons
+### Hiding from assistive technologies
 
-Icons are hidden from assistive technology using the `aria-hidden="true"`
+Icons are hidden from assistive technologies using the `aria-hidden="true"`
 attribute.
 
 ### Accessible name
